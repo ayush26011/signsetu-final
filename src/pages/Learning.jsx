@@ -53,9 +53,28 @@ export default function Learning() {
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
           <h3 style={{ marginBottom: '1.5rem' }}>Beginner Signs</h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.5rem', marginBottom: '3rem' }}>
-            <CourseCard title="Alphabet Mastery" duration="1h 30m" progress={100} completed onClick={() => setActiveVideo('Alphabet Mastery')} />
-            <CourseCard title="Numbers 1-100" duration="45m" progress={60} onClick={() => setActiveVideo('Numbers 1-100')} />
-            <CourseCard title="Basic Colors" duration="30m" progress={0} onClick={() => setActiveVideo('Basic Colors')} />
+            <CourseCard
+              title="Alphabet Mastery"
+              duration="1h 30m"
+              progress={100}
+              completed
+              thumbnail="https://i.postimg.cc/4N7sfKhQ/alphabet.png"
+              onClick={() => setActiveVideo('Alphabet Mastery')}
+            />
+            <CourseCard
+              title="Numbers 1-100"
+              duration="45m"
+              progress={60}
+              thumbnail="https://i.postimg.cc/zBc66j7d/numbers.png"
+              onClick={() => setActiveVideo('Numbers 1-100')}
+            />
+            <CourseCard
+              title="Basic Colors"
+              duration="30m"
+              progress={0}
+              thumbnail="https://i.postimg.cc/L61FdrrN/colors.png"
+              onClick={() => setActiveVideo('Basic Colors')}
+            />
           </div>
 
           <h3 style={{ marginBottom: '1.5rem' }}>Daily Conversations</h3>
@@ -223,12 +242,28 @@ export default function Learning() {
   );
 }
 
-function CourseCard({ title, duration, progress, completed, onClick }) {
+function CourseCard({ title, duration, progress, completed, onClick, thumbnail }) {
   return (
     <div className="glass-card" onClick={onClick} style={{ padding: '1.25rem', cursor: 'pointer', transition: 'transform 0.2s', position: 'relative' }}>
       {completed && <div style={{ position: 'absolute', top: '-10px', right: '-10px', background: '#00FF88', borderRadius: '50%', padding: '4px' }}><CheckCircle color="#000" size={16} /></div>}
-      <div style={{ height: '140px', background: 'rgba(0,0,0,0.05)', borderRadius: '12px', marginBottom: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <Play size={32} color="var(--color-primary)" opacity={0.5} />
+      <div style={{ height: '140px', background: 'rgba(0,0,0,0.05)', borderRadius: '12px', marginBottom: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', position: 'relative' }}>
+        {thumbnail ? (
+          <>
+            <img
+              src={thumbnail}
+              alt={title}
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+            <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.15)' }}></div>
+            <Play
+              size={32}
+              color="#FFFFFF"
+              style={{ position: 'absolute', zIndex: 2 }}
+            />
+          </>
+        ) : (
+          <Play size={32} color="var(--color-primary)" opacity={0.5} />
+        )}
       </div>
       <h4 style={{ margin: '0 0 0.25rem 0', fontSize: '1.1rem' }}>{title}</h4>
       <p style={{ margin: '0 0 1rem 0', fontSize: '0.85rem', color: 'var(--color-text-muted)' }}>{duration} • 12 Lessons</p>
