@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { SplineScene } from '../components/ui/splite';
 import { Spotlight } from '../components/ui/spotlight';
+import SplitText from '../components/ui/SplitText';
 
 const fadeInRules = {
   hidden: { opacity: 0, y: 40, scale: 0.95 },
@@ -62,11 +63,22 @@ export default function Home() {
           {/* Left: Content */}
           <motion.div 
             initial="hidden" animate="visible" variants={fadeInRules}
-            className="flex flex-col gap-6"
+            className="flex flex-col gap-6 items-center text-center"
           >
-            <h1 className="text-5xl md:text-7xl font-extrabold text-white leading-tight mb-0">
-              Breaking <span className="text-blue-400">Communication</span> Barriers with AI
-            </h1>
+            <SplitText
+              text="Breaking Communication Barriers with AI"
+              className="text-2xl md:text-4xl lg:text-5xl font-semibold text-[#DED1B6]"
+              delay={50}
+              duration={1.25}
+              ease="power3.out"
+              splitType="chars"
+              from={{ opacity: 0, y: 40 }}
+              to={{ opacity: 1, y: 0 }}
+              threshold={0.1}
+              rootMargin="-100px"
+              textAlign="center"
+              tag="h1"
+            />
             <p className="text-xl text-slate-300 max-w-xl leading-relaxed">
               SignSetu uses advanced artificial intelligence to translate sign language in real time, 
               empowering communication and connection for everyone.
