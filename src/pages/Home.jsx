@@ -29,10 +29,10 @@ export default function Home() {
       <section className="relative min-h-[90vh] w-full flex items-center justify-center overflow-hidden bg-[#020617]">
         {/* Animated Gradient Background */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#020617] z-0" />
-        
+
         {/* Spotlight Effect */}
         <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
-        
+
         {/* Animated Stars/Particles */}
         <div className="absolute inset-0 z-0 pointer-events-none">
           {[...Array(20)].map((_, i) => (
@@ -59,51 +59,50 @@ export default function Home() {
           ))}
         </div>
 
-        <div className="container relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center px-6">
+        <div className="container relative z-10 grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-12 lg:gap-20 items-center px-6">
           {/* Left: Content */}
-          <motion.div 
-            initial="hidden" animate="visible" variants={fadeInRules}
-            className="flex flex-col gap-6 items-center text-center"
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={fadeInRules}
+            className="flex flex-col gap-6 order-2 lg:order-1 items-center text-center lg:items-start lg:text-left"
           >
-            <SplitText
-              text="Breaking Communication Barriers with AI"
-              className="text-2xl md:text-4xl lg:text-5xl font-semibold text-[#DED1B6]"
-              delay={50}
-              duration={1.25}
-              ease="power3.out"
-              splitType="chars"
-              from={{ opacity: 0, y: 40 }}
-              to={{ opacity: 1, y: 0 }}
-              threshold={0.1}
-              rootMargin="-100px"
-              textAlign="center"
-              tag="h1"
-            />
-            <p className="text-xl text-slate-300 max-w-xl leading-relaxed">
-              SignSetu uses advanced artificial intelligence to translate sign language in real time, 
+            <h1 className="text-5xl md:text-7xl font-extrabold text-[var(--color-secondary)] leading-tight mb-0 max-w-3xl">
+              Breaking <span className="text-blue-400">Communication</span> Barriers with AI
+            </h1>
+            <p className="text-xl text-slate-300 text-[var(--color-secondary)] max-w-xl leading-relaxed">
+              SignSetu uses advanced artificial intelligence to translate sign language in real time,
               empowering communication and connection for everyone.
             </p>
-            <div className="flex flex-wrap gap-4 mt-4">
-              <Link to="/detection" className="btn btn-primary bg-blue-600 hover:bg-blue-500 border-none px-8 py-3 text-lg">
+
+            <div className="flex flex-col sm:flex-row gap-4 mt-4">
+              <Link
+                to="/detection"
+                className="btn btn-primary bg-blue-600 hover:bg-blue-500 border-none px-8 py-3 text-lg"
+              >
                 Start Live Detection
               </Link>
-              <Link to="/learning" className="btn btn-glass text-white border-white/20 hover:bg-white/10 px-8 py-3 text-lg">
+
+              <Link
+                to="/learning"
+                className="btn btn-glass text-white border-white/20 hover:bg-white/10 px-8 py-3 text-lg"
+              >
                 Explore Learning <ArrowRight size={20} className="ml-2" />
               </Link>
             </div>
           </motion.div>
 
           {/* Right: Spline 3D Scene */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, delay: 0.2 }}
-            className="relative h-[400px] md:h-[600px] w-full"
+            className="relative h-[400px] md:h-[600px] w-full order-1 lg:order-2 flex justify-center lg:justify-end"
           >
             {/* Subtle glow behind model */}
             <div className="absolute inset-0 bg-blue-500/10 blur-[120px] rounded-full" />
-            
-            <SplineScene 
+
+            <SplineScene
               scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
               className="w-full h-full relative z-10"
             />

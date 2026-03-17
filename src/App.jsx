@@ -4,6 +4,7 @@ import MainLayout from './components/layout/MainLayout';
 import DashboardLayout from './components/layout/DashboardLayout';
 import { NotificationProvider, useNotification } from './context/NotificationContext';
 import { UserProvider } from './context/UserContext';
+import UltraBackground from './components/ui/UltraBackground';
 
 // Pages
 import Home from './pages/Home';
@@ -137,6 +138,7 @@ function App() {
     <UserProvider>
     <NotificationProvider>
       <Router>
+        <UltraBackground />
         {/* Global Floating Shapes for Premium UI */}
         <div className="bg-blob" style={{ top: '-10%', left: '-10%', background: 'var(--color-primary)' }}></div>
         <div className="bg-blob" style={{ bottom: '10%', right: '-5%', background: 'var(--color-secondary)' }}></div>

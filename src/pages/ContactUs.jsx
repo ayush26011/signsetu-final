@@ -17,10 +17,10 @@ export default function ContactUs() {
       </motion.div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
-        
+
         {/* Contact Info Items */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-          
+
           <motion.div className="glass-card flex-center tilt-card" style={{ padding: '1.5rem', justifyContent: 'flex-start', gap: '1.5rem' }} initial="hidden" animate="visible" variants={fadeInRules} transition={{ delay: 0.1 }}>
             <div className="icon-wrapper" style={{ padding: '1rem', background: 'rgba(var(--color-primary-rgb), 0.1)', borderRadius: '50%' }}>
               <Phone size={28} color="var(--color-primary)" />
@@ -38,7 +38,7 @@ export default function ContactUs() {
             </div>
             <div>
               <h3 style={{ margin: '0 0 0.25rem 0' }}>Official Email</h3>
-              <p style={{ margin: 0, color: 'var(--color-text-muted)' }}>support@signsetu.ai</p>
+              <p style={{ margin: 0, color: 'var(--color-text-muted)' }}>support.signsetugmail.com</p>
             </div>
           </motion.div>
 
@@ -48,7 +48,7 @@ export default function ContactUs() {
             </div>
             <div>
               <h3 style={{ margin: '0 0 0.25rem 0' }}>Instagram</h3>
-              <a href="#" style={{ color: 'var(--color-primary)' }}>@SignSetuOfficial</a>
+              <a href="#" style={{ color: 'var(--color-primary)' }}>signsetu.ai</a>
             </div>
           </motion.div>
 
@@ -58,7 +58,7 @@ export default function ContactUs() {
         <motion.div className="glass-card tilt-card" style={{ padding: '2rem' }} initial="hidden" animate="visible" variants={fadeInRules} transition={{ delay: 0.4 }}>
           <h3 style={{ marginBottom: '1.5rem' }}>Send us a message</h3>
           <form style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }} onSubmit={(e) => e.preventDefault()}>
-            
+
             <div className="input-group">
               <label>Your Name</label>
               <input type="text" placeholder="John Doe" required style={{ width: '100%', padding: '0.75rem 1rem', borderRadius: '8px', border: '1px solid var(--glass-border)', background: 'rgba(255,255,255,0.3)', fontSize: '1rem' }} />

@@ -27,12 +27,12 @@ export default function Community() {
 
   const [posts, setPosts] = useState([
     {
-      id: 1, author: 'Sarah Jenkins', avatar: 'https://i.pravatar.cc/150?img=32', time: '2 hours ago',
+      id: 1, author: 'Unnati', avatar: 'https://i.postimg.cc/htmbsb5F/badtameez.jpg', time: '2 hours ago',
       content: "Just mastered the alphabet! 🎉 The AI tracking makes practicing so much easier. Here's a quick video of my progress!",
       likes: 124, comments: 18, isLiked: false, hasVideo: true, mockComments: ["Amazing progress!", "Keep it up!"]
     },
     {
-      id: 2, author: 'Marcus Chen', avatar: 'https://i.pravatar.cc/150?img=11', time: '5 hours ago',
+      id: 2, author: 'Anshuman Rai', avatar: 'https://i.postimg.cc/BbdPPR3z/hanger.jpg', time: '5 hours ago',
       content: "Does anyone want to join my practice room later tonight? Focusing on advanced medical vocabulary out of the Coursera extension.",
       likes: 45, comments: 6, isLiked: true, hasVideo: false, mockComments: ["I'm in!", "What time?"]
     }
@@ -57,7 +57,7 @@ export default function Community() {
   const handleCreatePost = () => {
     if (!newPostContent.trim()) return;
     const newPost = {
-      id: Date.now(), author: 'Alex Johnson', avatar: 'https://i.pravatar.cc/150?img=11', time: 'Just now',
+      id: Date.now(), author: 'Ayush Tiwari', avatar: 'https://i.postimg.cc/Nfh3bbdn/ayushsignsetu.jpg', time: 'Just now',
       content: newPostContent, likes: 0, comments: 0, isLiked: false, hasVideo: false, mockComments: []
     };
     setPosts([newPost, ...posts]);
@@ -295,7 +295,7 @@ export default function Community() {
               </div>
               <div className="participant-feed">
                 <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=600" />
-                <div className="participant-name">Alex M.</div>
+                <div className="participant-name">Ayush Tiwari</div>
                 <div className="participant-mute"><MicOff size={16} /></div>
               </div>
               <div className="participant-feed" style={{ border: '2px solid #00FF88' }}>

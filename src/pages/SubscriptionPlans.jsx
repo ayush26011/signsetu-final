@@ -8,7 +8,7 @@ const plans = [
   {
     id: 'monthly',
     name: '1 Month Plan',
-    price: '$12',
+    price: '₹199',
     period: '/mo',
     description: 'Perfect for beginners starting their journey.',
     features: ['Full Access to Live Detection', 'Premium Learning Content', 'Basic AI Practice Support', 'Community Membership'],
@@ -17,7 +17,7 @@ const plans = [
   {
     id: 'yearly',
     name: '1 Year Plan',
-    price: '$99',
+    price: '₹1199',
     period: '/yr',
     description: 'Best value for dedicated learners.',
     features: ['Unlimited Live Detection', 'All Course Certifications', 'Priority AI Access', 'Exclusive Mentorship', 'Offline Downloadable Content'],
@@ -28,7 +28,7 @@ const plans = [
   {
     id: 'semi-annual',
     name: '6 Month Plan',
-    price: '$59',
+    price: '₹699',
     period: '/6mo',
     description: 'Great for steady improvement.',
     features: ['Full Access to Live Detection', 'Premium Learning Content', 'Advanced AI Exercises', 'Progress Analytics'],
@@ -73,14 +73,14 @@ export default function SubscriptionPlans() {
               </div>
               <p className="plan-desc">{plan.description}</p>
             </div>
-            
+
             <ul className="plan-features">
               {plan.features.map((feature, i) => (
                 <li key={i}><Check size={16} className="feature-check" /> {feature}</li>
               ))}
             </ul>
 
-            <button 
+            <button
               className={`btn w-100 mt-auto ${plan.highlight ? 'btn-primary glow-effect' : 'btn-secondary'}`}
               onClick={() => handleBuy(plan)}
             >
@@ -120,9 +120,9 @@ export default function SubscriptionPlans() {
       </div>
 
       {isModalOpen && (
-        <PaymentModal 
-          isOpen={isModalOpen} 
-          onClose={() => setIsModalOpen(false)} 
+        <PaymentModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
           plan={selectedPlan}
           onClearPlan={() => setSelectedPlan(null)}
         />
