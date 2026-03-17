@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion';
 import { Camera, BookOpen, Globe, Accessibility, ShieldCheck, Zap, ArrowRight, Play, Github, Linkedin, Instagram } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { SplineScene } from '../components/ui/splite';
+import { Spotlight } from '../components/ui/spotlight';
 
 const fadeInRules = {
   hidden: { opacity: 0, y: 40, scale: 0.95 },
@@ -22,28 +24,77 @@ export default function Home() {
 
   return (
     <div className="home-page">
-      {/* 2. Hero Section */}
-      <section className="hero-section">
-        <div className="container center-hero">
-          <motion.h1
+      {/* 2. Enhanced Hero Section */}
+      <section className="relative min-h-[90vh] w-full flex items-center justify-center overflow-hidden bg-[#020617]">
+        {/* Animated Gradient Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#020617] z-0" />
+        
+        {/* Spotlight Effect */}
+        <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
+        
+        {/* Animated Stars/Particles */}
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          {[...Array(20)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute bg-white rounded-full"
+              style={{
+                width: Math.random() * 3 + 1 + 'px',
+                height: Math.random() * 3 + 1 + 'px',
+                left: Math.random() * 100 + '%',
+                top: Math.random() * 100 + '%',
+              }}
+              animate={{
+                opacity: [0.2, 0.8, 0.2],
+                scale: [1, 1.5, 1],
+                y: [0, -30, 0],
+              }}
+              transition={{
+                duration: Math.random() * 5 + 5,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
+          ))}
+        </div>
+
+        <div className="container relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center px-6">
+          {/* Left: Content */}
+          <motion.div 
             initial="hidden" animate="visible" variants={fadeInRules}
-            className="text-gradient"
+            className="flex flex-col gap-6"
           >
-            Breaking Communication Barriers with AI
-          </motion.h1>
-          <motion.p
-            initial="hidden" animate="visible" variants={fadeInRules}
-            className="hero-subtitle"
+            <h1 className="text-5xl md:text-7xl font-extrabold text-white leading-tight mb-0">
+              Breaking <span className="text-blue-400">Communication</span> Barriers with AI
+            </h1>
+            <p className="text-xl text-slate-300 max-w-xl leading-relaxed">
+              SignSetu uses advanced artificial intelligence to translate sign language in real time, 
+              empowering communication and connection for everyone.
+            </p>
+            <div className="flex flex-wrap gap-4 mt-4">
+              <Link to="/detection" className="btn btn-primary bg-blue-600 hover:bg-blue-500 border-none px-8 py-3 text-lg">
+                Start Live Detection
+              </Link>
+              <Link to="/learning" className="btn btn-glass text-white border-white/20 hover:bg-white/10 px-8 py-3 text-lg">
+                Explore Learning <ArrowRight size={20} className="ml-2" />
+              </Link>
+            </div>
+          </motion.div>
+
+          {/* Right: Spline 3D Scene */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.2 }}
+            className="relative h-[400px] md:h-[600px] w-full"
           >
-            SignSetu uses advanced artificial intelligence to translate sign language in real time, helping deaf and mute individuals communicate, learn, and connect with the world.
-          </motion.p>
-          <motion.div className="hero-actions" initial="hidden" animate="visible" variants={fadeInRules}>
-            <Link to="/detection" className="btn btn-primary glow-effect">
-              Start Live Detection
-            </Link>
-            <Link to="/learning" className="btn btn-glass">
-              Explore Learning <ArrowRight size={18} />
-            </Link>
+            {/* Subtle glow behind model */}
+            <div className="absolute inset-0 bg-blue-500/10 blur-[120px] rounded-full" />
+            
+            <SplineScene 
+              scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+              className="w-full h-full relative z-10"
+            />
           </motion.div>
         </div>
       </section>
