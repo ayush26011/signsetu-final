@@ -7,6 +7,7 @@ import { useUser } from '../context/UserContext';
 import { useNotification } from '../context/NotificationContext';
 
 export default function Login() {
+
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -25,7 +26,8 @@ export default function Login() {
     password: ''
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+
     e.preventDefault();
 
     // In a real app, we'd validate with backend
