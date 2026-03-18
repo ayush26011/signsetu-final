@@ -6,7 +6,6 @@ import { NotificationProvider, useNotification } from './context/NotificationCon
 import { UserProvider } from './context/UserContext';
 import UltraBackground from './components/ui/UltraBackground';
 
-
 // Pages
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -163,8 +162,8 @@ function App() {
             <Route element={<DashboardLayout />}>
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/detection" element={<LiveDetection />} />
-              <Route path="/avatar-translation" element={<AvatarTranslation />} />
               <Route path="/learning" element={<Learning />} />
+              <Route path="/avatar-translation" element={<AvatarTranslation />} />
               <Route path="/community" element={<Community />} />
               <Route path="/friends" element={<Friends />} />
               <Route path="/profile" element={<Profile />} />

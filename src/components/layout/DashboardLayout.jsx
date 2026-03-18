@@ -1,5 +1,5 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { Home, Phone, LayoutDashboard, Camera, BookOpen, Users, User, Settings, Bell, Search, Sparkles, Network } from 'lucide-react';
+import { Home, Phone, LayoutDashboard, Camera, BookOpen, Users, User, Settings, Bell, Search, Sparkles, Network, Languages } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Chatbot from './Chatbot';
 import Footer from './Footer';
@@ -8,18 +8,19 @@ import { useUser } from '../../context/UserContext';
 export default function DashboardLayout() {
   const { user } = useUser();
   const location = useLocation();
-  
+
   const sidebarLinks = [
-    { icon: <Home size={20}/>, label: 'Home', path: '/' },
-    { icon: <LayoutDashboard size={20}/>, label: 'Dashboard', path: '/dashboard' },
-    { icon: <Camera size={20}/>, label: 'Live Detection', path: '/detection' },
-    { icon: <BookOpen size={20}/>, label: 'Learning', path: '/learning' },
-    { icon: <Users size={20}/>, label: 'Community', path: '/community' },
-    { icon: <Network size={20}/>, label: 'Friends', path: '/friends' },
-    { icon: <User size={20}/>, label: 'My Profile', path: '/profile' },
-    { icon: <Sparkles size={20}/>, label: 'Subscription Plans', path: '/subscription' },
-    { icon: <Settings size={20}/>, label: 'Settings', path: '/settings' },
-    { icon: <Phone size={20}/>, label: 'Contact Us', path: '/contact' },
+    { icon: <Home size={20} />, label: 'Home', path: '/' },
+    { icon: <LayoutDashboard size={20} />, label: 'Dashboard', path: '/dashboard' },
+    { icon: <Camera size={20} />, label: 'Live Detection', path: '/detection' },
+    { icon: <BookOpen size={20} />, label: 'Learning', path: '/learning' },
+    { icon: <Languages size={20} />, label: 'Avatar Translation', path: '/avatar-translation' },
+    { icon: <Users size={20} />, label: 'Community', path: '/community' },
+    { icon: <Network size={20} />, label: 'Friends', path: '/friends' },
+    { icon: <User size={20} />, label: 'My Profile', path: '/profile' },
+    { icon: <Sparkles size={20} />, label: 'Subscription Plans', path: '/subscription' },
+    { icon: <Settings size={20} />, label: 'Settings', path: '/settings' },
+    { icon: <Phone size={20} />, label: 'Contact Us', path: '/contact' },
   ];
 
   return (
@@ -30,11 +31,11 @@ export default function DashboardLayout() {
           <Sparkles color="var(--color-secondary)" />
           <span>SignSetu AI</span>
         </div>
-        
+
         <nav className="sidebar-nav">
           {sidebarLinks.map(link => (
-            <Link 
-              key={link.path} 
+            <Link
+              key={link.path}
               to={link.path}
               className={`sidebar-link ${location.pathname === link.path ? 'active' : ''}`}
             >
@@ -52,7 +53,7 @@ export default function DashboardLayout() {
             <Search size={18} color="var(--color-text-muted)" />
             <input type="text" placeholder="Search courses, users, rooms..." />
           </div>
-          
+
           <div className="topbar-actions">
             <button className="icon-btn"><Bell size={20} /></button>
             <div className="user-avatar">
@@ -83,7 +84,7 @@ export default function DashboardLayout() {
           <Footer />
         </div>
       </div>
-      
+
       <Chatbot />
     </div>
   );
