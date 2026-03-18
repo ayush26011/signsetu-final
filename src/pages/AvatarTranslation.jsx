@@ -1,7 +1,6 @@
-"use client";
-
 import React, { useState, useRef, useEffect } from "react";
-import { Send, Mic, RotateCcw } from "lucide-react";
+import { motion } from "framer-motion";
+import { Send, Mic, RotateCcw, Languages, Video, Sparkles, AlertCircle } from "lucide-react";
 import { signVideos } from "../data/signVideos";
 
 const AvatarTranslation = () => {
@@ -12,17 +11,13 @@ const AvatarTranslation = () => {
 
     const videoRef = useRef(null);
 
-    // Requirement: Convert input to lowercase and find best match using text.includes()
     const findBestMatch = (text) => {
         const input = text.toLowerCase().trim();
 
-        // Check for exact match first
         if (signVideos[input]) {
             return { word: input, video: signVideos[input] };
         }
 
-        // Requirement: support partial matches using text.includes()
-        // We'll iterate through keys and see if input contains the key
         for (const key in signVideos) {
             if (input.includes(key)) {
                 return { word: key, video: signVideos[key] };
@@ -50,7 +45,6 @@ const AvatarTranslation = () => {
         setInputValue("");
     };
 
-    // Requirement: Replay using ref
     const handleWatchAgain = () => {
         if (videoRef.current) {
             videoRef.current.currentTime = 0;
@@ -58,7 +52,6 @@ const AvatarTranslation = () => {
         }
     };
 
-    // Speech Recognition logic
     const handleMicClick = () => {
         const SpeechRecognition =
             window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -83,108 +76,327 @@ const AvatarTranslation = () => {
         recognition.start();
     };
 
-    // Requirement: Use useEffect
-    // For example, to ensure video plays whenever currentVideo changes
     useEffect(() => {
         if (currentVideo && videoRef.current) {
-            videoRef.current.load(); // Ensure source is loaded
-            videoRef.current.play().catch(err => console.log("Video play error:", err));
+            videoRef.current.load();
+            videoRef.current.play().catch((err) => console.log("Video play error:", err));
         }
     }, [currentVideo]);
 
     return (
-        <div className="min-h-screen bg-[#F5F5DC] flex flex-col items-center justify-center p-6 text-[#4F3E34]">
-            <div className="w-full max-w-2xl space-y-8 bg-white p-10 rounded-3xl shadow-2xl border border-[#4F3E34]/10">
-
-                <div className="text-center space-y-2">
-                    <h1 className="text-4xl font-extrabold tracking-tight">
+        <div className="avatar-translation-page" style={{ padding: "1rem" }}>
+            <motion.div
+                className="glass-card"
+                style={{
+                    padding: "2rem",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginBottom: "2rem",
+                    background: "var(--color-primary)",
+                    color: "#FFF"
+                }}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+            >
+                <div>
+                    <h2 style={{ color: "#FFF", margin: "0 0 0.5rem 0", display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                        <Languages size={28} />
                         Avatar Live Translation
-                    </h1>
-                    <p className="text-lg opacity-80">
-                        Type or speak a word to see sign translation.
+                    </h2>
+                    <p style={{ opacity: 0.8, margin: 0 }}>
+                        Type or speak a phrase and instantly view the matching sign avatar.
                     </p>
                 </div>
 
-                {/* Search & Mic Section */}
-                <form onSubmit={handleSubmit} className="flex gap-4 items-center">
-                    <div className="relative flex-1">
-                        <input
-                            type="text"
-                            placeholder="Type a sentence (e.g., hello come to my home)"
-                            value={inputValue}
-                            onChange={(e) => setInputValue(e.target.value)}
-                            className="w-full px-6 py-4 rounded-full border-2 border-[#4F3E34]/20 focus:border-[#4F3E34] outline-none transition-all text-lg shadow-sm"
-                        />
+                <div style={{ display: "flex", gap: "2rem" }}>
+                    <div style={{ textAlign: "center" }}>
+                        <div style={{ fontSize: "2rem", fontWeight: 800 }}>AI</div>
+                        <div style={{ fontSize: "0.85rem", opacity: 0.8 }}>Smart Match</div>
+                    </div>
+                    <div style={{ textAlign: "center" }}>
+                        <div style={{ fontSize: "2rem", fontWeight: 800 }}>Live</div>
+                        <div style={{ fontSize: "0.85rem", opacity: 0.8 }}>Voice Input</div>
+                    </div>
+                </div>
+            </motion.div>
+
+            <div style={{ display: "flex", gap: "1.5rem", alignItems: "stretch" }}>
+                <motion.div
+                    className="glass-card"
+                    style={{
+                        flex: 1.2,
+                        display: "flex",
+                        flexDirection: "column",
+                        overflow: "hidden"
+                    }}
+                    initial={{ opacity: 0, scale: 0.98 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                >
+                    <div
+                        style={{
+                            padding: "1.5rem",
+                            borderBottom: "1px solid var(--glass-border)",
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center"
+                        }}
+                    >
+                        <h3 style={{ margin: 0, display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                            <Video size={22} color="var(--color-primary)" />
+                            Avatar Preview
+                        </h3>
+
+                        {currentVideo && (
+                            <button
+                                className="btn btn-secondary"
+                                onClick={handleWatchAgain}
+                                style={{ padding: "0.6rem 1rem" }}
+                            >
+                                <RotateCcw size={16} />
+                                Watch Again
+                            </button>
+                        )}
                     </div>
 
-                    <button
-                        type="button"
-                        onClick={handleMicClick}
-                        className={`p-4 rounded-full transition-all shadow-md ${isRecording
-                            ? "bg-red-500 text-white animate-pulse"
-                            : "bg-gray-100 hover:bg-gray-200"
-                            }`}
+                    <div
+                        style={{
+                            padding: "1.5rem",
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: "1rem",
+                            flex: 1
+                        }}
                     >
-                        <Mic size={24} />
-                    </button>
-
-                    <button
-                        type="submit"
-                        disabled={!inputValue.trim()}
-                        className="bg-[#4F3E34] text-white p-4 rounded-full hover:bg-[#3d3128] disabled:opacity-50 disabled:cursor-not-allowed shadow-md transition-all"
-                    >
-                        <Send size={24} />
-                    </button>
-                </form>
-
-                {/* Video Player Section */}
-                <div className="relative overflow-hidden rounded-2xl bg-[#4F3E34]/5 border-2 border-[#4F3E34]/10 aspect-video flex items-center justify-center">
-                    {currentVideo ? (
-                        <video
-                            ref={videoRef}
-                            key={currentVideo.video} // Change key to force re-render/reload when video source changes
-                            autoPlay
-                            muted
-                            controls
-                            playsInline
-                            className="w-full h-full object-cover"
+                        <div
+                            style={{
+                                position: "relative",
+                                overflow: "hidden",
+                                borderRadius: "18px",
+                                background: "rgba(79, 62, 52, 0.06)",
+                                border: "1px solid var(--glass-border)",
+                                aspectRatio: "16 / 9",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center"
+                            }}
                         >
-                            <source src={currentVideo.video} type="video/mp4" />
-                            Your browser does not support the video tag.
-                        </video>
-                    ) : (
-                        <div className="text-center p-8 text-gray-400">
-                            {errorMsg ? (
-                                <p className="text-red-500 font-medium">{errorMsg}</p>
+                            {currentVideo ? (
+                                <video
+                                    ref={videoRef}
+                                    key={currentVideo.video}
+                                    autoPlay
+                                    muted
+                                    loop
+                                    playsInline
+                                    className="no-tilt"
+                                    style={{
+                                        width: "100%",
+                                        height: "100%",
+                                        objectFit: "cover",
+                                        borderRadius: "18px",
+                                        background: "#000"
+                                    }}
+                                >
+                                    <source src={currentVideo.video} type="video/mp4" />
+                                    Your browser does not support the video tag.
+                                </video>
                             ) : (
-                                <p>Submit a word to play translation video.</p>
+                                <div
+                                    style={{
+                                        textAlign: "center",
+                                        color: "var(--color-text-muted)",
+                                        padding: "2rem",
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        alignItems: "center",
+                                        gap: "0.75rem"
+                                    }}
+                                >
+                                    <Video size={56} opacity={0.5} />
+                                    {errorMsg ? (
+                                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
+                                            <AlertCircle size={22} color="#FF6B6B" />
+                                            <p style={{ color: "#d9534f", fontWeight: 600, margin: 0 }}>{errorMsg}</p>
+                                        </div>
+                                    ) : (
+                                        <p style={{ margin: 0 }}>Submit a word to play translation avatar.</p>
+                                    )}
+                                </div>
                             )}
                         </div>
-                    )}
-                </div>
 
-                {/* Watch Again Button */}
-                {currentVideo && (
-                    <div className="flex flex-col items-center gap-4">
-                        <h3 className="text-xl font-bold capitalize underline underline-offset-4 decoration-[#4F3E34]/30">
-                            {currentVideo.word}
-                        </h3>
-                        <button
-                            onClick={handleWatchAgain}
-                            className="flex items-center gap-2 px-8 py-3 bg-[#4F3E34] text-white rounded-full hover:bg-[#3d3128] transition-all font-semibold shadow-lg hover:shadow-xl active:scale-95"
-                        >
-                            <RotateCcw size={20} />
-                            Watch Again
-                        </button>
+                        {currentVideo && (
+                            <div
+                                style={{
+                                    background: "rgba(79, 62, 52, 0.05)",
+                                    borderRadius: "14px",
+                                    padding: "1rem 1.2rem",
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                    gap: "1rem"
+                                }}
+                            >
+                                <div>
+                                    <div style={{ fontSize: "0.8rem", color: "var(--color-text-muted)", marginBottom: "0.25rem" }}>
+                                        Current Match
+                                    </div>
+                                    <div style={{ fontSize: "1.2rem", fontWeight: 700, textTransform: "capitalize", color: "var(--color-primary)" }}>
+                                        {currentVideo.word}
+                                    </div>
+                                </div>
+
+                                <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", color: "var(--color-text-muted)" }}>
+                                    <Sparkles size={18} />
+                                    <span style={{ fontSize: "0.9rem" }}>Matched from your input</span>
+                                </div>
+                            </div>
+                        )}
                     </div>
-                )}
+                </motion.div>
 
-                {/* Fallback help message if nothing is playing */}
-                {!currentVideo && !errorMsg && (
-                    <p className="text-center text-sm text-[#4F3E34]/60">
-                        Try: <span className="font-semibold italic">good morning, sorry, strong man</span>
-                    </p>
-                )}
+                <motion.div
+                    className="glass-card"
+                    style={{
+                        width: "360px",
+                        display: "flex",
+                        flexDirection: "column",
+                        overflow: "hidden"
+                    }}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                >
+                    <div
+                        style={{
+                            padding: "1.5rem",
+                            borderBottom: "1px solid var(--glass-border)"
+                        }}
+                    >
+                        <h3 style={{ margin: 0, display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                            <Languages size={20} />
+                            Translate Input
+                        </h3>
+                    </div>
+
+                    <div
+                        style={{
+                            padding: "1.5rem",
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: "1rem",
+                            flex: 1
+                        }}
+                    >
+                        <p style={{ margin: 0, color: "var(--color-text-muted)", fontSize: "0.95rem", lineHeight: 1.6 }}>
+                            Enter a word or short phrase and the system will search for the closest sign avatar available in your dataset.
+                        </p>
+
+                        <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                            <div
+                                style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: "0.75rem",
+                                    background: "rgba(255,255,255,0.7)",
+                                    border: "1px solid var(--glass-border)",
+                                    borderRadius: "16px",
+                                    padding: "0.75rem 1rem"
+                                }}
+                            >
+                                <input
+                                    type="text"
+                                    placeholder="Type a sentence..."
+                                    value={inputValue}
+                                    onChange={(e) => setInputValue(e.target.value)}
+                                    style={{
+                                        flex: 1,
+                                        background: "transparent",
+                                        border: "none",
+                                        outline: "none",
+                                        fontSize: "1rem",
+                                        color: "var(--color-text-main)"
+                                    }}
+                                />
+
+                                <button
+                                    type="button"
+                                    onClick={handleMicClick}
+                                    className="icon-btn"
+                                    style={{
+                                        background: isRecording ? "#FF4D4F" : "transparent",
+                                        color: isRecording ? "#FFF" : "var(--color-text-muted)",
+                                        borderRadius: "12px",
+                                        padding: "0.55rem"
+                                    }}
+                                >
+                                    <Mic size={18} />
+                                </button>
+                            </div>
+
+                            <button
+                                type="submit"
+                                disabled={!inputValue.trim()}
+                                className="btn btn-primary w-100"
+                            >
+                                <Send size={18} />
+                                Translate Now
+                            </button>
+                        </form>
+
+                        <div
+                            style={{
+                                marginTop: "0.5rem",
+                                background: "rgba(79, 62, 52, 0.04)",
+                                borderRadius: "16px",
+                                padding: "1rem"
+                            }}
+                        >
+                            <div style={{ fontSize: "0.85rem", fontWeight: 700, marginBottom: "0.75rem", color: "var(--color-primary)" }}>
+                                Suggested phrases
+                            </div>
+
+                            <div style={{ display: "flex", flexWrap: "wrap", gap: "0.6rem" }}>
+                                {["good morning", "sorry", "strong man", "hello"].map((item) => (
+                                    <button
+                                        key={item}
+                                        type="button"
+                                        onClick={() => {
+                                            setInputValue(item);
+                                            handleTranslate(item);
+                                        }}
+                                        style={{
+                                            border: "1px solid var(--glass-border)",
+                                            background: "#FFF",
+                                            color: "var(--color-text-main)",
+                                            borderRadius: "999px",
+                                            padding: "0.45rem 0.9rem",
+                                            fontSize: "0.82rem",
+                                            cursor: "pointer"
+                                        }}
+                                    >
+                                        {item}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        {!currentVideo && !errorMsg && (
+                            <div
+                                style={{
+                                    marginTop: "auto",
+                                    padding: "1rem",
+                                    borderRadius: "14px",
+                                    background: "rgba(198, 172, 143, 0.18)",
+                                    color: "var(--color-text-main)",
+                                    fontSize: "0.9rem"
+                                }}
+                            >
+                                Try phrases like <strong>good morning</strong>, <strong>sorry</strong>, or <strong>strong man</strong>.
+                            </div>
+                        )}
+                    </div>
+                </motion.div>
             </div>
         </div>
     );
