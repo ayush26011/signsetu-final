@@ -6,6 +6,7 @@ import { NotificationProvider, useNotification } from './context/NotificationCon
 import { UserProvider } from './context/UserContext';
 import UltraBackground from './components/ui/UltraBackground';
 
+
 // Pages
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -22,6 +23,7 @@ import Support from './pages/Support';
 import About from './pages/About';
 import ContactUs from './pages/ContactUs';
 import SubscriptionPlans from './pages/SubscriptionPlans';
+import AvatarTranslation from './pages/AvatarTranslation';
 
 function App() {
 
@@ -30,14 +32,14 @@ function App() {
     const applyTheme = () => {
       const activeTheme = localStorage.getItem('signsetu-theme') || 'default';
       const accentColor = localStorage.getItem('signsetu-accent') || '#DED1B6';
-      
+
       const root = document.documentElement;
-      
+
       // Map activeTheme ID back to its color schema constraints
       // Default: { primary: '#4F3E34', bg: '#F5F5DC' }
       // Dark: { primary: '#DED1B6', bg: '#1E1E1E' }
       // HC: { primary: '#000000', bg: '#F5F5DC' }
-      
+
       if (activeTheme === 'dark') {
         root.style.setProperty('--color-primary', '#DED1B6');
         root.style.setProperty('--color-bg', '#1E1E1E');
@@ -68,7 +70,7 @@ function App() {
     // --- NEW: Global 3D Card Tilt Effect ---
     // Only apply if user respects motion
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    
+
     const handleMouseMove = (e) => {
       if (prefersReducedMotion) return;
       const cards = document.querySelectorAll('.glass-card:not(.no-tilt)');
@@ -76,7 +78,7 @@ function App() {
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-        
+
         // Calculate rotation based on cursor position relative to center of card
         // Max tilt angle: 5 degrees
         const centerX = rect.width / 2;
@@ -101,7 +103,7 @@ function App() {
 
     let outlineX = 0; let outlineY = 0;
     let targetX = 0; let targetY = 0;
-    
+
     // Smooth animation loop for cursor
     let animationFrameId;
     const renderCursor = () => {
@@ -109,7 +111,7 @@ function App() {
       // Interpolation for smooth delay effect
       outlineX += (targetX - outlineX) * 0.15;
       outlineY += (targetY - outlineY) * 0.15;
-      
+
       cursorDot.style.transform = `translate3d(${outlineX}px, ${outlineY}px, 0)`;
       animationFrameId = requestAnimationFrame(renderCursor);
     };
@@ -136,43 +138,44 @@ function App() {
 
   return (
     <UserProvider>
-    <NotificationProvider>
-      <Router>
-        <UltraBackground />
-        {/* Global Floating Shapes for Premium UI */}
-        <div className="bg-blob" style={{ top: '-10%', left: '-10%', background: 'var(--color-primary)' }}></div>
-        <div className="bg-blob" style={{ bottom: '10%', right: '-5%', background: 'var(--color-secondary)' }}></div>
-        <div className="bg-blob" style={{ top: '40%', left: '70%', background: 'var(--color-accent)' }}></div>
-        
-        <Routes>
-        {/* Public Marketing Layout */}
-        <Route element={<MainLayout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/pricing" element={<Pricing />} />
-          <Route path="/support" element={<Support />} />
-          <Route path="/about" element={<About />} />
-        </Route>
+      <NotificationProvider>
+        <Router>
+          <UltraBackground />
+          {/* Global Floating Shapes for Premium UI */}
+          <div className="bg-blob" style={{ top: '-10%', left: '-10%', background: 'var(--color-primary)' }}></div>
+          <div className="bg-blob" style={{ bottom: '10%', right: '-5%', background: 'var(--color-secondary)' }}></div>
+          <div className="bg-blob" style={{ top: '40%', left: '70%', background: 'var(--color-accent)' }}></div>
 
-        {/* Auth Layout (No Navbar/Footer) */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Login />} />
+          <Routes>
+            {/* Public Marketing Layout */}
+            <Route element={<MainLayout />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/pricing" element={<Pricing />} />
+              <Route path="/support" element={<Support />} />
+              <Route path="/about" element={<About />} />
+            </Route>
 
-        {/* Authenticated Dashboard Layout */}
-        <Route element={<DashboardLayout />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/detection" element={<LiveDetection />} />
-          <Route path="/learning" element={<Learning />} />
-          <Route path="/community" element={<Community />} />
-          <Route path="/friends" element={<Friends />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/settings/theme" element={<ThemeCustomization />} />
-          <Route path="/subscription" element={<SubscriptionPlans />} />
-          <Route path="/contact" element={<ContactUs />} />
-        </Route>
-      </Routes>
-      </Router>
-    </NotificationProvider>
+            {/* Auth Layout (No Navbar/Footer) */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Login />} />
+
+            {/* Authenticated Dashboard Layout */}
+            <Route element={<DashboardLayout />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/detection" element={<LiveDetection />} />
+              <Route path="/avatar-translation" element={<AvatarTranslation />} />
+              <Route path="/learning" element={<Learning />} />
+              <Route path="/community" element={<Community />} />
+              <Route path="/friends" element={<Friends />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/settings" element={<Settings />} />
+              <Route path="/settings/theme" element={<ThemeCustomization />} />
+              <Route path="/subscription" element={<SubscriptionPlans />} />
+              <Route path="/contact" element={<ContactUs />} />
+            </Route>
+          </Routes>
+        </Router>
+      </NotificationProvider>
     </UserProvider>
   );
 }
