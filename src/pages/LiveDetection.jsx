@@ -56,7 +56,7 @@ export default function LiveDetection() {
 
   const clearSentence = async () => {
     try {
-      await fetch('/clear');
+      await fetch('/clear')
       setSentence('Waiting for signs...');
       setLastWord('');
       setHistoryLog([]);
