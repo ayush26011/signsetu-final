@@ -21,14 +21,15 @@ export const UserProvider = ({ children }) => {
   }, [user]);
 
   const login = (userData) => {
-    setUser({
-      ...user,
+    setUser((prev) => ({
+      ...(prev || {}),
       ...userData
-    });
+    }));
   };
 
   const logout = () => {
     localStorage.removeItem('signsetu-user');
+    sessionStorage.removeItem('signsetu-token');
     setUser(null);
   };
 
