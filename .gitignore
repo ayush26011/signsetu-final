@@ -22,3 +22,19 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+backend/.env
+backend/.env.*
+!backend/.env.example
+
+# Legacy backend secrets
+backend-old/.env
+backend-old/.env.*
+!backend-old/.env.example
+
+# Ignore archived backend
+backend-old/

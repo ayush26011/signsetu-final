@@ -20,6 +20,7 @@ export default function Login() {
     return true;
   });
 
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -27,18 +28,98 @@ export default function Login() {
   });
 
   const handleSubmit = async (e) => {
-
     e.preventDefault();
+    if (loading) return;
 
-    // In a real app, we'd validate with backend
-    // For now, we simulate success
-    login({
-      name: formData.name || 'Alex Johnson',
-      email: formData.email
-    });
+    const trimmedName = formData.name.trim();
+    const normalizedEmail = formData.email.trim().toLowerCase();
+    const password = formData.password;
 
-    showToast(isLogin ? 'Welcome back to SignSetu!' : 'Account created! Welcome to the community.', 'success');
-    navigate('/dashboard');
+    if (!isLogin && !trimmedName) {
+      showToast('Please enter your full name.', 'error');
+      return;
+    }
+
+    if (!normalizedEmail) {
+      showToast('Please enter your email address.', 'error');
+      return;
+    }
+
+    if (!password) {
+      showToast('Please enter your password.', 'error');
+      return;
+    }
+
+    if (!isLogin && password.length < 8) {
+      showToast('Password must be at least 8 characters long.', 'error');
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      if (!isLogin) {
+        // Signup request
+        const response = await fetch('http://localhost:5001/api/auth/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: trimmedName,
+            email: normalizedEmail,
+            password,
+          }),
+        });
+
+        const data = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+          const errorMessage = data?.error || (response.status === 409 ? 'Email is already registered.' : 'Failed to create account.');
+          showToast(errorMessage, 'error');
+          return;
+        }
+
+        showToast(data?.message || 'Account created successfully! Please sign in.', 'success');
+        setIsLogin(true);
+        setFormData((prev) => ({ ...prev, password: '' }));
+      } else {
+        // Login request
+        const response = await fetch('http://localhost:5001/api/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: normalizedEmail,
+            password,
+          }),
+        });
+
+        const data = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+          const errorMessage = data?.error || (response.status === 401 ? 'Invalid email or password.' : 'Login failed. Please try again.');
+          showToast(errorMessage, 'error');
+          return;
+        }
+
+        if (data?.token) {
+          sessionStorage.setItem('signsetu-token', data.token);
+        }
+
+        if (data?.user) {
+          login(data.user);
+        }
+
+        showToast('Welcome back to SignSetu!', 'success');
+        navigate('/dashboard');
+      }
+    } catch (err) {
+      showToast('Network error: Unable to reach the server. Please check your connection.', 'error');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -122,8 +203,8 @@ export default function Login() {
               </div>
             )}
 
-            <button type="submit" className="btn btn-primary w-100 glow-effect" style={{ marginTop: '0.5rem' }}>
-              {isLogin ? 'Sign In' : 'Create Account'}
+            <button type="submit" className="btn btn-primary w-100 glow-effect" style={{ marginTop: '0.5rem' }} disabled={loading}>
+              {loading ? 'Please wait...' : (isLogin ? 'Sign In' : 'Create Account')}
             </button>
           </form>
 
